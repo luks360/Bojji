@@ -164,58 +164,58 @@ client.on("messageCreate", message => {
     }
 })
 
-client.on("messageCreate", message => {
+// client.on("messageCreate", message => {
 
-    if (message.author.bot) return
-    if (!message.content.startsWith(config.prefix + "botao")) return
-    if (message.member.permissions.has("ADMINISTRATOR") != true) return message.channel.send(`${message.author} Você precisa ter permissão de administrador para executar esse comando`)
-    const commandBody = message.content.slice(config.prefix.length);
-    if (commandBody.includes(" ") == false) {
-        return message.channel.send(`${message.author} você precisa passar algum parametro ao usar esse comando`)
-    }
-    const args = commandBody.split(' ')
-    const command = args.shift().toLowerCase()
-    var text = ""
+//     if (message.author.bot) return
+//     if (!message.content.startsWith(config.prefix + "botao")) return
+//     if (message.member.permissions.has("ADMINISTRATOR") != true) return message.channel.send(`${message.author} Você precisa ter permissão de administrador para executar esse comando`)
+//     const commandBody = message.content.slice(config.prefix.length);
+//     if (commandBody.includes(" ") == false) {
+//         return message.channel.send(`${message.author} você precisa passar algum parametro ao usar esse comando`)
+//     }
+//     const args = commandBody.split(' ')
+//     const command = args.shift().toLowerCase()
+//     var text = ""
 
-    for (i = 2; i < args.length; i++) {
-        if (i == args.length - 1)
-            text += args[i]
-        else
-            text += args[i] + " "
-    }
+//     for (i = 2; i < args.length; i++) {
+//         if (i == args.length - 1)
+//             text += args[i]
+//         else
+//             text += args[i] + " "
+//     }
 
-    const row = new MessageActionRow()
-        .addComponents(
-            new MessageButton()
-                .setLabel(text)
-                .setURL(args[1])
-                .setStyle('LINK'),
-        );
+//     const row = new MessageActionRow()
+//         .addComponents(
+//             new MessageButton()
+//                 .setLabel(text)
+//                 .setURL(args[1])
+//                 .setStyle('LINK'),
+//         );
 
-    message.guild.channels.cache.get(args[0]).send({ components: [row] });
-})
+//     message.guild.channels.cache.get(args[0]).send({ components: [row] });
+// })
 
-client.on("messageCreate", async message => {
+// client.on("messageCreate", async message => {
 
-    if (message.author.bot) return
-    if (!message.content.startsWith(config.prefix + "cobrar")) return
-    if (message.member.permissions.has("ADMINISTRATOR") != true) return message.channel.send(`${message.author} Você precisa ter permissão de administrador para executar esse comando`)
-    const commandBody = message.content.slice(config.prefix.length);
-    if (commandBody.includes(" ") == false) {
-        return message.channel.send(`${message.author} você precisa passar algum parametro ao usar esse comando`)
-    }
-    const args = commandBody.split(' ');
-    const command = args.shift().toLowerCase()
+//     if (message.author.bot) return
+//     if (!message.content.startsWith(config.prefix + "cobrar")) return
+//     if (message.member.permissions.has("ADMINISTRATOR") != true) return message.channel.send(`${message.author} Você precisa ter permissão de administrador para executar esse comando`)
+//     const commandBody = message.content.slice(config.prefix.length);
+//     if (commandBody.includes(" ") == false) {
+//         return message.channel.send(`${message.author} você precisa passar algum parametro ao usar esse comando`)
+//     }
+//     const args = commandBody.split(' ');
+//     const command = args.shift().toLowerCase()
 
-    var cobrarEmbed = {
-        color: 0x1099ff,
-        title: `Parabens <:ShibeBlushy:948959105349976095>`,
-        description: `Você acaba de adquirir o ${args[1]}, ele vai durar até ${args[2]}, então aproveite bem ele e não se esqueça de renovar para manter seus privilegios`
-    }
+//     var cobrarEmbed = {
+//         color: 0x1099ff,
+//         title: `Parabens <:ShibeBlushy:948959105349976095>`,
+//         description: `Você acaba de adquirir o ${args[1]}, ele vai durar até ${args[2]}, então aproveite bem ele e não se esqueça de renovar para manter seus privilegios`
+//     }
 
-    message.guild.channels.cache.get("953371343779418124").send({ content: args[0], embeds: [cobrarEmbed] })
+//     message.guild.channels.cache.get("953371343779418124").send({ content: args[0], embeds: [cobrarEmbed] })
 
-})
+// })
 
 client.on("messageCreate", async message => {
     if (message.author.bot) return
