@@ -33,6 +33,7 @@ module.exports = {
     ],
     run: async (client, interaction) => {
 
+        if (interaction.user.bot) return
         if (!interaction.member.permissions.has(Discord.PermissionFlagsBits.ManageGuild)) {
             interaction.reply({ content: `Você não possui permissão para utilizar este comando.`, ephemeral: true })
         } else {
@@ -92,7 +93,19 @@ module.exports = {
             // Show the modal to the user
             await interaction.showModal(modal);
             
-            client.on('interactionCreate', async (modalSubmit) => {
+            let image = interaction.options.getString("imagem")
+            if (!image) image = null
+
+            let thumbnail = interaction.options.getString("thumbnail")
+            if (!thumbnail) thumbnail = null
+
+            let archive = interaction.options.getString("arquivo")
+            if (!archive) archive = null
+
+            let chat = interaction.options.getChannel("chat")
+            if (Discord.ChannelType.GuildText !== chat.type) return interaction.followUp(`❌ Este canal não é um canal de texto para enviar uma mensagem.`)
+
+            client.once('interactionCreate', async (modalSubmit) => {
                 if (!modalSubmit.isModalSubmit()) return;
 
                 let message = modalSubmit.fields.getTextInputValue('messageInput')
@@ -106,31 +119,27 @@ module.exports = {
 
                 let desc = modalSubmit.fields.getTextInputValue('descInput')
                 if (!desc) desc = null
-                
-                let image = interaction.options.getString("imagem")
-                if (!image) image = null
 
-                let thumbnail = interaction.options.getString("thumbnail")
-                if (!thumbnail) thumbnail = null
-
-                let archive = interaction.options.getString("arquivo")
-                if (!archive) archive = null
-
-                let chat = interaction.options.getChannel("chat")
-                if (Discord.ChannelType.GuildText !== chat.type) return interaction.followUp(`❌ Este canal não é um canal de texto para enviar uma mensagem.`)
-
-                let embed = new Discord.EmbedBuilder()
+                const embed = new Discord.EmbedBuilder()
                     .setTitle(titulo)
                     .setDescription(desc)
                     .setColor(cor)
                     .setImage(image)
                     .setThumbnail(thumbnail);
                 
-                chat.send({ content: message, files: [archive], embeds: [embed] }).then(() => {
-                    modalSubmit.reply(`✅ Seu embed foi enviado em ${chat} com sucesso.`)
-                }).catch((e) => {
-                    modalSubmit.reply(`❌ Algo deu errado.`)
-                })
+                if(archive != null){
+                    chat.send({ content: message, files: [archive], embeds: [embed] }).then(async () => {
+                        await modalSubmit.reply(`✅ Seu embed foi enviado em ${chat} com sucesso.`)
+                    }).catch( async (e) => {
+                        await modalSubmit.reply(`❌ Algo deu errado.`)
+                    })
+                } else {
+                    chat.send({ content: message, embeds: [embed] }).then(async () => {
+                        await modalSubmit.reply(`✅ Seu embed foi enviado em ${chat} com sucesso.`)
+                    }).catch(async (e) => {
+                        await modalSubmit.reply(`❌ Algo deu errado.`)
+                    })
+                }
             }) 
         }
     }
