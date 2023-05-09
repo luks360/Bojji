@@ -48,7 +48,11 @@ module.exports = {
             .then((dados) => {
                 // Enviar o texto da resposta para a página HTML
                 if (dados != '') {
-                    interaction.editReply(`${dados.choices[0].message.content}`)
+                    if (dados.choices[0].message.content.length <= 2000) {
+                        interaction.editReply(`${dados.choices[0].message.content}`)
+                    } else {
+                        return interaction.editReply(":warning: | algo deu errado, provavelmente minha resposta excedeu o limite maximo de caracteres (2000) do Discord")
+                    }
                 }
                 else {
                     interaction.editReply(":warning: | Devido a **problemas internos** não consegui formular uma resposta. Reformule sua pergunta e tente novamente!")
