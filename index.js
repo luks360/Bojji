@@ -105,26 +105,27 @@ client.on('messageReactionAdd', async (reaction, user) => {
     }
 
     if (reaction.emoji.name === "🇧🇷") {
+        if (reaction.message.content.includes("@everyone")) return reaction.message.reply("Muito engraçadinho, mas eu não vou cair nessa <:ShibeStab:943359600026066964>")
 
         const trad = await translate("traduza para portugues:", reaction.message.content)
 
         if (reaction.message.content != trad) {
             reaction.message.reply(
-                "\nOriginal: " + reaction.message.content +
-                "\nTradução: " + trad +
+                "\n**Original:** " + reaction.message.content +
+                "\n\n**Tradução:** " + trad +
                 `\n<@${user.id}>`
             );
         }
     }
 
     if (reaction.emoji.name === "🇺🇸") {
-
+        if (reaction.message.content.includes("@everyone")) return reaction.message.reply("Muito engraçadinho, mas eu não vou cair nessa <:ShibeStab:943359600026066964>")
         const trad = await translate("traduza para inglês:", reaction.message.content)
 
         if (reaction.message.content != trad) {
             reaction.message.reply(
-                "\nOriginal: " + reaction.message.content +
-                "\nTranslation: " + trad +
+                "\n**Original:** " + reaction.message.content +
+                "\n\n**Translation:** " + trad +
                 `\n<@${user.id}>`
             );
         }
