@@ -29,7 +29,9 @@ module.exports = {
 
         const jira = await JiraRegister.findById(interaction.user.id)
 
-        if(jira == null) return interaction.reply({ content: "Você não possui um token registrado, use o comando `/register` para isso.", ephemeral: true })
+        const id = client.application.commands.cache.find(c => c.name === 'register').id
+
+        if(jira == null) return interaction.reply({ content: `Você não possui um token registrado, use o comando </register jira:${id}> para isso.`, ephemeral: true })
 
         const domain = interaction.options.getString("dominio")
         const key = interaction.options.getString("key")

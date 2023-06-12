@@ -4,7 +4,7 @@ const GithubRegister = require("../../models/githubRegister")
 
 module.exports = {
     name: "register", // Coloque o nome do comando
-    description: "Edite uma issue.", // Coloque a descrição do comando
+    description: "Registre seu token.", // Coloque a descrição do comando
     type: Discord.ApplicationCommandType.ChatInput,
     options: [
         {

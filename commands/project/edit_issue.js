@@ -78,16 +78,15 @@ module.exports = {
         }
     ],
     run: async (client, interaction) => {
-
-        if (!interaction.member.permissions.has(Discord.PermissionFlagsBits.ManageGuild))
-            return interaction.reply({ content: `Você não possui permissão para utilizar este comando.`, ephemeral: true })
         
         interaction.reply("⏳ Editando sua issue...")
+
+        const id = client.application.commands.cache.find(c => c.name === 'register').id
 
         if (interaction.options.getSubcommand() === 'jira') {
             const jira = await JiraRegister.findById(interaction.user.id)
 
-            if (jira == null) return interaction.reply({ content: "Você não possui um token registrado, use o comando `/register` para isso.", ephemeral: true })
+            if (jira == null) return interaction.reply({ content: `Você não possui um token registrado, use o comando </register jira:${id}> para isso.`, ephemeral: true })
             
             const domain = interaction.options.getString("dominio")
             const key = interaction.options.getString("key")
@@ -100,7 +99,6 @@ module.exports = {
                 }
             })
 
-            console.log(json)
             const result = await fetch(`https://${domain}.atlassian.net/rest/api/2/issue/${key}`, {
 
                 method: "PUT",
@@ -115,17 +113,17 @@ module.exports = {
 
             }).then((dados) => {
                 console.log(dados)
-                interaction.reply("✅ Issue editada com sucesso!")
+                interaction.editReply("✅ Issue editada com sucesso!")
             }).catch((error) => {
                 console.log(error)
-                interaction.reply(`❎ | Algo deu errado.`)
+                interaction.editReply(`❎ | Algo deu errado.`)
             });
         }
         else if (interaction.options.getSubcommand() === 'github') {
 
             const github = await GithubRegister.findById(interaction.user.id)
     
-            if (github == null) return interaction.editReply({ content: "Você não possui um token registrado, use o comando `/register` para isso.", ephemeral: true })
+            if (github == null) return interaction.editReply({ content: `Você não possui um token registrado, use o comando </register github:${id}> para isso.`, ephemeral: true })
 
             const owner = interaction.options.getString("dono")
             const repo = interaction.options.getString("repositorio")

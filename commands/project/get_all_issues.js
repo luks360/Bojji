@@ -67,13 +67,15 @@ module.exports = {
     ],
     run: async (client, interaction) => {
 
+        const id = client.application.commands.cache.find(c => c.name === 'register').id
+
         try {
             if (interaction.options.getSubcommand() === 'jira') {
                 if (!interaction.isCommand()) return;
                 const jira = await JiraRegister.findById(interaction.user.id)
     
                 if (jira == null) return interaction.reply({
-                    content: "Você não possui um token registrado, use o comando `/register` para isso.",
+                    content: `Você não possui um token registrado, use o comando </register jira:${id}> para isso.`,
                     ephemeral: true
                 })
     
@@ -212,7 +214,7 @@ module.exports = {
 
                 const github = await GithubRegister.findById(interaction.user.id)
     
-                if (github == null) return interaction.editReply({ content: "Você não possui um token registrado, use o comando `/register` para isso.", ephemeral: true })
+                if (github == null) return interaction.editReply({ content: `Você não possui um token registrado, use o comando </register github:${id}> para isso.`, ephemeral: true })
 
                 const owner = interaction.options.getString("dono")
                 const repo = interaction.options.getString("repositorio")
